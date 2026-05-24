@@ -32,9 +32,9 @@ export async function middleware(req: NextRequest) {
   }
 
   // 2. Guard for Pages
-  const isAdminPath = path.startsWith("/admin");
+  const isAdminPath = path.startsWith("/admin") && !path.startsWith("/admin/login");
   const isOrdersPath = path.startsWith("/orders");
-  const isAuthPage = path === "/login" || path === "/register" || path === "/admin/login";
+  const isAuthPage = path === "/login" || path === "/register" || path === "/admin/login" || path === "/admin/login/";
 
   if (isAuthPage) {
     if (user) {
