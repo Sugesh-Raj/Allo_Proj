@@ -55,21 +55,23 @@ export default function Navbar({ user }: NavbarProps) {
               <ShoppingBag className="h-4 w-4" />
               Storefront
             </Link>
-            <Link
-              href="/orders"
-              className="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors"
-            >
-              <Globe className="h-4 w-4" />
-              Live Order Queue
-            </Link>
             {user?.role === "ADMIN" && (
-              <Link
-                href="/admin"
-                className="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors"
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                Admin Dashboard
-              </Link>
+              <>
+                <Link
+                  href="/orders"
+                  className="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors"
+                >
+                  <Globe className="h-4 w-4" />
+                  Live Order Queue
+                </Link>
+                <Link
+                  href="/admin"
+                  className="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors"
+                >
+                  <LayoutDashboard className="h-4 w-4" />
+                  Admin Dashboard
+                </Link>
+              </>
             )}
           </nav>
         </div>

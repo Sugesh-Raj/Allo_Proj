@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
   const user = token ? await verifyJWT(token) : null;
 
   // 1. Guard for API Routes (excluding login, register, public products, public warehouses, and cron)
-  if (path.startsWith("/api/admin")) {
+  if (path.startsWith("/api/admin") || path.startsWith("/api/orders")) {
     if (!user || user.role !== "ADMIN") {
       return new NextResponse(
         JSON.stringify({ error: "Unauthorized access. Admin role required." }),
@@ -33,6 +33,7 @@ export async function middleware(req: NextRequest) {
 
   // 2. Guard for Pages
   const isAdminPath = path.startsWith("/admin");
+  const isOrdersPath = path.startsWith("/orders");
   const isAuthPage = path === "/login" || path === "/register" || path === "/admin/login";
 
   if (isAuthPage) {
@@ -56,9 +57,9 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // User is authenticated but tries to access Admin route with normal USER role
-  if (isAdminPath && user.role !== "ADMIN") {
-    // Show forbidden screen or redirect to home catalog
+  // User is authenticated but tries to access Admin/Orders route with normal USER role
+  if ((isAdminPath || isOrdersPath) && user.role !== "ADMIN") {
+    // Redirect normal users to home catalog
     return NextResponse.redirect(new URL("/", req.url));
   }
 
