@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { verifyJWT } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -9,6 +9,13 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = headers().get("x-pathname") || "";
+  const isLoginPage = pathname === "/admin/login" || pathname === "/admin/login/";
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
   const token = cookies().get("auth_token")?.value;
   const user = token ? await verifyJWT(token) : null;
 
